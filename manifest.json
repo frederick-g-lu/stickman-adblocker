@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "name": "Stickman AdBlock",
+  "description": "Hires a stickman to block ads for you.",
+  "version": "1.0.0",
+  "minimum_chrome_version": "114",
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "alarms",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "icons": {
+    "16": "assets/stickman-thicc.png",
+    "32": "assets/stickman-thicc.png",
+    "48": "assets/stickman-thicc.png",
+    "128": "assets/stickman-thicc.png"
+  },
+  "action": {
+    "default_title": "Stickman AdBlock",
+    "default_icon": {
+      "16": "assets/stickman-thicc.png",
+      "32": "assets/stickman-thicc.png"
+    },
+    "default_popup": "popup/popup.html"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "core_ads",
+        "enabled": true,
+        "path": "rules/core-ads.json"
+      },
+      {
+        "id": "tracking",
+        "enabled": true,
+        "path": "rules/tracking.json"
+      },
+      {
+        "id": "malware",
+        "enabled": true,
+        "path": "rules/malware.json"
+      }
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "src/content/page-cleaner.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/stickman-thicc.png"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

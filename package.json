@@ -1,0 +1,9 @@
+{
+  "name": "aegis-adblock-pro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chromium MV3 adblocker extension",
+  "scripts": {
+    "validate": "node tools/validate.js"
+  }
+}

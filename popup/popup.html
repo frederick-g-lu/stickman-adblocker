@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stickman AdBlock</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>Stickman AdBlock</h1>
+        <p>Hires a stickman to block ads for you.</p>
+      </header>
+
+      <section class="controls">
+        <label class="switch-row">
+          <span>Enable protection</span>
+          <input id="enabled" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>Block ad networks</span>
+          <input id="blockAds" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>Block trackers</span>
+          <input id="blockTrackers" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>Block risky ad domains</span>
+          <input id="blockMalware" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>Remove cookie walls</span>
+          <input id="blockCookieWalls" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>Hide distractions</span>
+          <input id="hideDistractions" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>Aggressive cleanup mode</span>
+          <input id="aggressiveMode" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>Use remote filter lists (uBO-style)</span>
+          <input id="useRemoteLists" type="checkbox" />
+        </label>
+      </section>
+
+      <section class="actions">
+        <button id="refreshLists" type="button">Update filter lists now</button>
+        <p id="meta">No list sync metadata yet.</p>
+      </section>
+
+      <footer>
+        <p id="status">Ready.</p>
+      </footer>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

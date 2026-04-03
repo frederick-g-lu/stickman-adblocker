@@ -1,0 +1,92 @@
+[
+  {
+    "id": 2001,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||google-analytics.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "ping"]
+    }
+  },
+  {
+    "id": 2002,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||googletagmanager.com^",
+      "resourceTypes": ["script", "xmlhttprequest"]
+    }
+  },
+  {
+    "id": 2003,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||facebook.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "ping"]
+    }
+  },
+  {
+    "id": 2004,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||connect.facebook.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "ping"]
+    }
+  },
+  {
+    "id": 2005,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||hotjar.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "ping"]
+    }
+  },
+  {
+    "id": 2006,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||segment.io^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "ping"]
+    }
+  },
+  {
+    "id": 2007,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||mixpanel.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "ping"]
+    }
+  },
+  {
+    "id": 2008,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||optimizely.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image"]
+    }
+  },
+  {
+    "id": 2009,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://[^/]+/(collect|track|analytics|telemetry)([/?].*)?$",
+      "resourceTypes": ["xmlhttprequest", "ping", "image"]
+    }
+  },
+  {
+    "id": 2010,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||scorecardresearch.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "ping"]
+    }
+  }
+]

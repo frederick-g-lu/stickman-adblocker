@@ -1,0 +1,427 @@
+[
+  {
+    "id": 1001,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||doubleclick.net^",
+      "resourceTypes": ["main_frame", "sub_frame", "script", "xmlhttprequest", "image", "media"]
+    }
+  },
+  {
+    "id": 1002,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||googlesyndication.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "media", "sub_frame"]
+    }
+  },
+  {
+    "id": 1003,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||googleadservices.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 1004,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||adservice.google.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame"]
+    }
+  },
+  {
+    "id": 1005,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||adnxs.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "sub_frame"]
+    }
+  },
+  {
+    "id": 1006,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||taboola.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 1007,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||outbrain.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 1008,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||ads.youtube.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "media"]
+    }
+  },
+  {
+    "id": 1009,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://.*(/ad[sx]?/|/ads?[/?]|ad_break)",
+      "resourceTypes": ["xmlhttprequest", "script", "sub_frame"],
+      "excludedInitiatorDomains": [
+        "brightspace.com",
+        "purdue.edu",
+        "docs.google.com",
+        "slides.google.com",
+        "sheets.google.com",
+        "drive.google.com",
+        "classroom.google.com",
+        "sites.google.com",
+        "calendar.google.com",
+        "mail.google.com"
+      ]
+    }
+  },
+  {
+    "id": 1010,
+    "priority": 1,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||imasdk.googleapis.com^",
+      "resourceTypes": ["script", "xmlhttprequest"]
+    }
+  },
+  {
+    "id": 1011,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://([^/]+\\.)?freewebnovel\\.com/(ad[sx]?|ads?[-_/]|banner[s]?|promo[s]?|popunder|vast|click)(/|\\?|$)",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image", "media"]
+    }
+  },
+  {
+    "id": 1012,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||adsterra.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 1013,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||popads.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "main_frame"]
+    }
+  },
+  {
+    "id": 1014,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||hilltopads.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 1015,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||onclicka.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "main_frame"]
+    }
+  },
+  {
+    "id": 1016,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||trafficstars.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "image"]
+    }
+  },
+  {
+    "id": 1017,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://.*(/popunder|/interstitial|/inpage-push|/push-notification)(/|\\?|$)",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame"],
+      "initiatorDomains": ["freewebnovel.com"]
+    }
+  },
+  {
+    "id": 1018,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||popcash.net^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "main_frame"]
+    }
+  },
+  {
+    "id": 1019,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||propellerads.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "main_frame"]
+    }
+  },
+  {
+    "id": 1020,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||adcash.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "main_frame"]
+    }
+  },
+  {
+    "id": 1021,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||exoclick.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "main_frame", "image"]
+    }
+  },
+  {
+    "id": 1022,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||juicyads.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "main_frame", "image"]
+    }
+  },
+  {
+    "id": 1023,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||adxpansion.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "sub_frame", "main_frame"]
+    }
+  },
+  {
+    "id": 1024,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://.*(/redirect|/out|/go|/r|/click|/visit)(/|\\?|$)",
+      "resourceTypes": ["main_frame"],
+      "initiatorDomains": ["freewebnovel.com"]
+    }
+  },
+  {
+    "id": 1025,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://.*[?&](target|dest|destination|url|redirect|redir|out)=https?%3A",
+      "resourceTypes": ["main_frame"],
+      "initiatorDomains": ["freewebnovel.com"]
+    }
+  },
+  {
+    "id": 1026,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://.*[?&](target|dest|destination|url|redirect|redir|out)=https?://",
+      "resourceTypes": ["main_frame"],
+      "initiatorDomains": ["freewebnovel.com"]
+    }
+  },
+  {
+    "id": 1027,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://([^/]+\\.)?freewebnovel\\.com/.+(sponsor|promoted|native-ad|advertorial|recommended)(/|\\?|$)",
+      "resourceTypes": ["xmlhttprequest", "sub_frame", "image", "script"]
+    }
+  },
+  {
+    "id": 1028,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||adroll.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "sub_frame"]
+    }
+  },
+  {
+    "id": 1029,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||mgid.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "sub_frame"]
+    }
+  },
+  {
+    "id": 1030,
+    "priority": 2,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||revcontent.com^",
+      "resourceTypes": ["script", "xmlhttprequest", "image", "sub_frame"]
+    }
+  },
+  {
+    "id": 1031,
+    "priority": 3,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||cdn.bncloudfl.com/bn/^",
+      "resourceTypes": ["image", "media", "sub_frame"]
+    }
+  },
+  {
+    "id": 1032,
+    "priority": 3,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||ybs2ffs7v.com^",
+      "resourceTypes": ["image", "script", "xmlhttprequest", "sub_frame", "main_frame", "ping"]
+    }
+  },
+  {
+    "id": 1033,
+    "priority": 3,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://ybs2ffs7v\\.com/(chicken|whob)\\.gif\\?.*(pid=__clb-|afid=)",
+      "resourceTypes": ["image", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 1034,
+    "priority": 3,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||source.pubadx.one^",
+      "resourceTypes": ["image", "media", "sub_frame", "xmlhttprequest"]
+    }
+  },
+  {
+    "id": 1035,
+    "priority": 3,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||demand.pubadx.one/click^",
+      "resourceTypes": ["main_frame", "sub_frame", "xmlhttprequest", "script", "ping"]
+    }
+  },
+  {
+    "id": 1036,
+    "priority": 3,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://(source|demand)\\.pubadx\\.one/.*(\\.gif|/click\\?).*",
+      "resourceTypes": ["image", "main_frame", "sub_frame", "xmlhttprequest", "ping"]
+    }
+  },
+  {
+    "id": 1037,
+    "priority": 3,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||7ad.org/www/delivery/cl.php^",
+      "resourceTypes": ["main_frame", "sub_frame", "xmlhttprequest", "image", "ping"]
+    }
+  },
+  {
+    "id": 1038,
+    "priority": 3,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||adform.net^",
+      "resourceTypes": ["image", "script", "xmlhttprequest", "sub_frame", "main_frame", "ping", "media"]
+    }
+  },
+  {
+    "id": 1039,
+    "priority": 4,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://([^/]+\\.)?freewebnovel\\.com/banners/.*(ad|ads|advert|sponsor|promo).*(\\.png|\\.jpg|\\.jpeg|\\.gif|\\.webp|\\.avif|\\.svg)(\\?.*)?$",
+      "resourceTypes": ["image"],
+      "initiatorDomains": ["freewebnovel.com"]
+    }
+  },
+  {
+    "id": 1040,
+    "priority": 4,
+    "action": { "type": "block" },
+    "condition": {
+      "urlFilter": "||youtube.com/pagead/",
+      "resourceTypes": ["xmlhttprequest", "script", "sub_frame", "image", "media"]
+    }
+  },
+  {
+    "id": 1041,
+    "priority": 4,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://(www\\.)?youtube\\.com/api/stats/ads",
+      "resourceTypes": ["xmlhttprequest", "ping", "image"]
+    }
+  },
+  {
+    "id": 1042,
+    "priority": 4,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://(www\\.)?youtube\\.com/get_midroll_info",
+      "resourceTypes": ["xmlhttprequest", "script"]
+    }
+  },
+  {
+    "id": 1043,
+    "priority": 4,
+    "action": { "type": "block" },
+    "condition": {
+      "regexFilter": "^https?://(www\\.)?youtube\\.com/youtubei/v1/player/ad_break",
+      "resourceTypes": ["xmlhttprequest"]
+    }
+  },
+  {
+    "id": 1101,
+    "priority": 100,
+    "action": { "type": "allow" },
+    "condition": {
+      "regexFilter": "^https?://",
+      "resourceTypes": ["image", "media", "font", "sub_frame", "xmlhttprequest", "script"],
+      "initiatorDomains": [
+        "brightspace.com",
+        "purdue.edu",
+        "docs.google.com",
+        "slides.google.com",
+        "sheets.google.com",
+        "drive.google.com",
+        "classroom.google.com",
+        "sites.google.com",
+        "calendar.google.com",
+        "mail.google.com"
+      ]
+    }
+  }
+]
