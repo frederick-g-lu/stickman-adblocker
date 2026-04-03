@@ -1481,8 +1481,8 @@ function applyDirectLinkProtection() {
   installDirectLinkGuard();
 }
 
-function applyPopunderProtection(settings) {
-  if (!settings.aggressiveMode || shouldBypassCleanup()) {
+function applyPopunderProtection() {
+  if (shouldBypassCleanup()) {
     return;
   }
 
@@ -1518,7 +1518,7 @@ function cleanupPage(settings, remoteCosmeticSelectors, remoteCosmeticDomainRule
   safelyRun(() => applySiteSpecificProtection());
   safelyRun(() => applyRemoteCosmeticProtection(settings, remoteCosmeticSelectors, remoteCosmeticDomainRules));
   safelyRun(() => applyDirectLinkProtection());
-  safelyRun(() => applyPopunderProtection(settings));
+  safelyRun(() => applyPopunderProtection());
   safelyRun(() => applyYouTubeAdPlaybackProtection());
   safelyRun(() => applyAntiAdblockProtection());
   safelyRun(() => applyInterstitialProtection());
