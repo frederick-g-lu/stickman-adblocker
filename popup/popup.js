@@ -6,7 +6,6 @@ const CONTROL_IDS = [
   "blockCookieWalls",
   "hideDistractions",
   "aggressiveMode",
-  "interactiveStickman",
   "useRemoteLists"
 ];
 

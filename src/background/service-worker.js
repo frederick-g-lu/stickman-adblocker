@@ -6,7 +6,6 @@ const DEFAULT_SETTINGS = {
   blockCookieWalls: true,
   hideDistractions: true,
   aggressiveMode: false,
-  interactiveStickman: false,
   useRemoteLists: true
 };
 
