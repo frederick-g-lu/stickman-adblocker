@@ -9,7 +9,7 @@ const PHYSICS = {
   gravity: 0.5,
   friction: 0.98,
   bounce: 0.7,
-  maxVelocity: 240,
+  maxVelocity: 150,
   mass: 1,
   size: 160,
 };
@@ -159,7 +159,7 @@ class InteractiveStickman {
 
     // Calculate angular velocity based on throw direction and magnitude
     const throwDist = Math.hypot(e.clientX - this.mouseStartX, e.clientY - this.mouseStartY);
-    this.angularVelocity = (throwDist / 50) * 5; // Spin proportional to throw distance
+    this.angularVelocity = (throwDist / 50) * 10; // Spin proportional to throw distance
   }
 
   onTouchStart(e) {
@@ -216,7 +216,7 @@ class InteractiveStickman {
 
     // Calculate angular velocity based on throw direction and magnitude
     const throwDist = Math.hypot(touch.clientX - this.mouseStartX, touch.clientY - this.mouseStartY);
-    this.angularVelocity = (throwDist / 50) * 5; // Spin proportional to throw distance
+    this.angularVelocity = (throwDist / 50) * 10; // Spin proportional to throw distance
   }
 
   startPhysicsLoop() {
