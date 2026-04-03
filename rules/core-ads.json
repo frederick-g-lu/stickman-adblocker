@@ -409,7 +409,7 @@
     "action": { "type": "allow" },
     "condition": {
       "regexFilter": "^https?://",
-      "resourceTypes": ["image", "media", "font", "sub_frame"],
+      "resourceTypes": ["image", "media", "font", "sub_frame", "xmlhttprequest", "script"],
       "initiatorDomains": [
         "brightspace.com",
         "purdue.edu",
