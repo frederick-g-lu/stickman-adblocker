@@ -55,6 +55,7 @@
         "<all_urls>"
       ],
       "js": [
+        "src/content/stickman-physics.js",
         "src/content/page-cleaner.js"
       ],
       "run_at": "document_idle",
