@@ -17,6 +17,7 @@ const PHYSICS = {
 const ANIMATION_FRAME_RATE = 1000 / 60; // ~60fps
 
 let stickmanPhy = null;
+const isTopLevelFrame = window.top === window;
 
 class InteractiveStickman {
   constructor() {
@@ -36,6 +37,11 @@ class InteractiveStickman {
     this.mouseStartY = 0;
     this.animationId = null;
     this.created = false;
+
+    this.boundMouseMove = (e) => this.onMouseMove(e);
+    this.boundMouseUp = (e) => this.onMouseUp(e);
+    this.boundTouchMove = (e) => this.onTouchMove(e);
+    this.boundTouchEnd = (e) => this.onTouchEnd(e);
   }
 
   create() {
@@ -81,13 +87,13 @@ class InteractiveStickman {
 
     // Bind events
     this.element.addEventListener("mousedown", (e) => this.onMouseDown(e));
-    document.addEventListener("mousemove", (e) => this.onMouseMove(e));
-    document.addEventListener("mouseup", (e) => this.onMouseUp(e));
+    document.addEventListener("mousemove", this.boundMouseMove);
+    document.addEventListener("mouseup", this.boundMouseUp);
 
     // Touch events for mobile
     this.element.addEventListener("touchstart", (e) => this.onTouchStart(e));
-    document.addEventListener("touchmove", (e) => this.onTouchMove(e));
-    document.addEventListener("touchend", (e) => this.onTouchEnd(e));
+    document.addEventListener("touchmove", this.boundTouchMove);
+    document.addEventListener("touchend", this.boundTouchEnd);
 
     this.created = true;
     this.startPhysicsLoop();
@@ -104,10 +110,10 @@ class InteractiveStickman {
       this.element.parentNode.removeChild(this.element);
     }
 
-    document.removeEventListener("mousemove", (e) => this.onMouseMove(e));
-    document.removeEventListener("mouseup", (e) => this.onMouseUp(e));
-    document.removeEventListener("touchmove", (e) => this.onTouchMove(e));
-    document.removeEventListener("touchend", (e) => this.onTouchEnd(e));
+    document.removeEventListener("mousemove", this.boundMouseMove);
+    document.removeEventListener("mouseup", this.boundMouseUp);
+    document.removeEventListener("touchmove", this.boundTouchMove);
+    document.removeEventListener("touchend", this.boundTouchEnd);
 
     this.created = false;
   }
@@ -317,23 +323,25 @@ function disableInteractiveStickman() {
 }
 
 // Listen for setting changes
-chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName !== "sync") return;
+if (isTopLevelFrame) {
+  chrome.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== "sync") return;
 
-  if (changes.interactiveStickman) {
-    const enabled = changes.interactiveStickman.newValue;
-    if (enabled) {
-      initializeInteractiveStickman();
-    } else {
-      disableInteractiveStickman();
+    if (changes.interactiveStickman) {
+      const enabled = changes.interactiveStickman.newValue;
+      if (enabled) {
+        initializeInteractiveStickman();
+      } else {
+        disableInteractiveStickman();
+      }
     }
-  }
-});
+  });
 
-// Initialize if setting is enabled
-(async () => {
-  const result = await chrome.storage.sync.get({ interactiveStickman: false });
-  if (result.interactiveStickman) {
-    initializeInteractiveStickman();
-  }
-})();
+  // Initialize if setting is enabled
+  (async () => {
+    const result = await chrome.storage.sync.get({ interactiveStickman: false });
+    if (result.interactiveStickman) {
+      initializeInteractiveStickman();
+    }
+  })();
+}

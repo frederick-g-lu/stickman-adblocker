@@ -63,6 +63,7 @@ function main() {
 
   checkJsSyntax("src/background/service-worker.js");
   checkJsSyntax("src/content/page-cleaner.js");
+  checkJsSyntax("src/content/stickman-physics.js");
   checkJsSyntax("popup/popup.js");
 
   console.log("Validation passed.");

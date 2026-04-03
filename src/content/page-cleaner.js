@@ -157,6 +157,7 @@ const STYLE_IDS = {
   effects: "stickman-style-effects"
 };
 const STICKMAN_ASSET_PATH = "assets/stickman-thicc.png";
+const isTopLevelFrame = window.top === window;
 const hostname = window.location.hostname.toLowerCase();
 const selectorValidityCache = new Map();
 const TRUSTED_PRODUCTIVITY_DOMAINS = [
@@ -1481,8 +1482,8 @@ function applyDirectLinkProtection() {
   installDirectLinkGuard();
 }
 
-function applyPopunderProtection() {
-  if (shouldBypassCleanup()) {
+function applyPopunderProtection(settings) {
+  if (!settings.aggressiveMode || shouldBypassCleanup()) {
     return;
   }
 
@@ -1506,7 +1507,7 @@ function applyPageRecovery() {
 }
 
 function cleanupPage(settings, remoteCosmeticSelectors, remoteCosmeticDomainRules) {
-  if (!settings.enabled || shouldBypassCleanup()) {
+  if (!isTopLevelFrame || !settings.enabled || shouldBypassCleanup()) {
     return;
   }
 
@@ -1518,7 +1519,7 @@ function cleanupPage(settings, remoteCosmeticSelectors, remoteCosmeticDomainRule
   safelyRun(() => applySiteSpecificProtection());
   safelyRun(() => applyRemoteCosmeticProtection(settings, remoteCosmeticSelectors, remoteCosmeticDomainRules));
   safelyRun(() => applyDirectLinkProtection());
-  safelyRun(() => applyPopunderProtection());
+  safelyRun(() => applyPopunderProtection(settings));
   safelyRun(() => applyYouTubeAdPlaybackProtection());
   safelyRun(() => applyAntiAdblockProtection());
   safelyRun(() => applyInterstitialProtection());
@@ -1549,6 +1550,10 @@ async function runCleanup() {
 }
 
 function scheduleCleanup() {
+  if (!isTopLevelFrame) {
+    return;
+  }
+
   if (shouldBypassCleanup()) {
     return;
   }
@@ -1566,35 +1571,37 @@ function scheduleCleanup() {
   }, 75);
 }
 
-const observer = new MutationObserver(() => {
-  scheduleCleanup();
-});
+if (isTopLevelFrame) {
+  const observer = new MutationObserver(() => {
+    scheduleCleanup();
+  });
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    if (!shouldBypassCleanup()) {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!shouldBypassCleanup()) {
+        scheduleCleanup();
+      }
+    });
+  } else {
+    scheduleCleanup();
+  }
+
+  if (!shouldBypassCleanup()) {
+    observer.observe(document.documentElement, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["class", "style", "hidden", "aria-hidden"]
+    });
+  }
+
+  chrome.storage.onChanged.addListener((_changes, area) => {
+    if (shouldBypassCleanup()) {
+      return;
+    }
+
+    if (area === "sync" || area === "local") {
       scheduleCleanup();
     }
   });
-} else {
-  scheduleCleanup();
 }
-
-if (!shouldBypassCleanup()) {
-  observer.observe(document.documentElement, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ["class", "style", "hidden", "aria-hidden"]
-  });
-}
-
-chrome.storage.onChanged.addListener((_changes, area) => {
-  if (shouldBypassCleanup()) {
-    return;
-  }
-
-  if (area === "sync" || area === "local") {
-    scheduleCleanup();
-  }
-});
