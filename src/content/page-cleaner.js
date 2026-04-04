@@ -203,11 +203,8 @@ let lastHeavyBannerScanAt = 0;
 
 const EFFECTS = {
   dissolveMs: 260,
-  stickmanMs: 620,
-  maxStickmenPerCycle: 3
+  stickmanMs: 620
 };
-
-let activeStickmenInCycle = 0;
 
 const SITE_LOGO_SELECTORS = [
   "a[rel~='home']",
@@ -502,10 +499,6 @@ function createStickmanImageElement(width, height) {
 }
 
 function showStickmanEffectNearElement(node) {
-  if (activeStickmenInCycle >= EFFECTS.maxStickmenPerCycle) {
-    return;
-  }
-
   if (!(node instanceof HTMLElement)) {
     return;
   }
@@ -527,7 +520,6 @@ function showStickmanEffectNearElement(node) {
     return;
   }
 
-  activeStickmenInCycle += 1;
   const aspect = visibleWidth / Math.max(1, visibleHeight);
   let width;
   let height;
@@ -1449,12 +1441,13 @@ function applyDistractionProtection(settings) {
 }
 
 function applyNativeBannerProtection() {
+  ensureEffectsStyle();
+  dissolveAndHideBySelectors(NATIVE_BANNER_SELECTORS, "data-stickman-native-selector");
   applySelectorBucket(STYLE_IDS.native, NATIVE_BANNER_SELECTORS);
 }
 
 function applyBannerAdProtection() {
   ensureEffectsStyle();
-  activeStickmenInCycle = 0;
   restoreSafeActionButtons();
   dissolveAndHideBySelectors(BANNER_AD_SELECTORS, "data-stickman-banner-selector");
   if (shouldRunHeavyBannerScan()) {
@@ -1469,6 +1462,8 @@ function applySiteSpecificProtection() {
     applySelectorBucket(STYLE_IDS.siteSpecific, []);
     return;
   }
+  ensureEffectsStyle();
+  dissolveAndHideBySelectors(siteSelectors, "data-stickman-site-selector");
   applySelectorBucket(STYLE_IDS.siteSpecific, siteSelectors);
 }
 
@@ -1489,6 +1484,11 @@ function applyRemoteCosmeticProtection(settings, remoteCosmeticSelectors, remote
         .filter((rule) => shouldUseDomainRule(rule))
         .map((rule) => rule.selector)
     );
+  }
+
+  if (selectors.length > 0) {
+    ensureEffectsStyle();
+    dissolveAndHideBySelectors(selectors, "data-stickman-remote-selector");
   }
 
   applySelectorBucket(STYLE_IDS.remote, selectors);
