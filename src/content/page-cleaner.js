@@ -285,6 +285,9 @@ function restoreSiteLogos() {
     node.removeAttribute("data-stickman-banner-slot");
     node.removeAttribute("data-stickman-banner-selector");
 
+    node.setAttribute("data-stickman-safe-asset", "true");
+
+
     if (logoImage instanceof HTMLElement && logoImage !== node) {
       logoImage.classList.remove("stickman-dissolve");
       logoImage.style.removeProperty("display");
@@ -294,9 +297,18 @@ function restoreSiteLogos() {
       logoImage.removeAttribute("data-stickman-known-banner-container");
       logoImage.removeAttribute("data-stickman-banner-slot");
       logoImage.removeAttribute("data-stickman-banner-selector");
+      logoImage.setAttribute("data-stickman-safe-asset", "true");
     }
   }
 }
+
+function isMarkedSafeAsset(node) {
+  if (!(node instanceof HTMLElement)) {
+    return false;
+  }
+
+  return node.getAttribute("data-stickman-safe-asset") === "true" || node.closest("[data-stickman-safe-asset='true']") !== null;
+}  
 
 function isAmazonHost(host) {
   if (!host || typeof host !== "string") {
@@ -457,14 +469,11 @@ function ensureEffectsStyle() {
     }
 
     .stickman-asset img {
-      width: 100%;
-      height: 100%;
+      width: 50%;
+      height: 50%;
       object-fit: contain;
       display: block;
       pointer-events: none;
-      filter:
-        drop-shadow(0 0 0.75px rgba(255, 255, 255, 0.35))
-        drop-shadow(0 1px 1px rgba(0, 0, 0, 0.18));
     }
 
     @keyframes stickman-pop {
@@ -552,6 +561,10 @@ function dissolveAndHideElement(node, marker) {
   }
 
   if (node.getAttribute(marker) === "true") {
+    return;
+  }
+
+  if (isMarkedSafeAsset(node) === "true") {
     return;
   }
 
@@ -976,6 +989,10 @@ function hideLikelyBannerSlots() {
       continue;
     }
 
+    if (isMarkedSafeAsset(node)) {
+      continue;
+    }
+
     const style = getComputedStyle(node);
     if (style.display === "none" || style.visibility === "hidden") {
       continue;
@@ -1037,6 +1054,10 @@ function hideKnownBannerImages() {
     checked += 1;
 
     if (!(img instanceof HTMLImageElement)) {
+      continue;
+    }
+
+    if (isMarkedSafeAsset(img)) {
       continue;
     }
 
