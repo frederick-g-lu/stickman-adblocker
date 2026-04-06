@@ -6,12 +6,12 @@
 const STICKMAN_ASSET_PATH = "assets/stickman-thicc.png";
 
 const PHYSICS = {
-  gravity: 0.5,
+  gravity: 0,
   friction: 0.98,
   bounce: 0.7,
   maxVelocity: 240,
   mass: 1,
-  size: 160,
+  size: 100,
 };
 
 const ANIMATION_FRAME_RATE = 1000 / 60; // ~60fps
@@ -36,6 +36,12 @@ class InteractiveStickman {
     this.mouseStartY = 0;
     this.animationId = null;
     this.created = false;
+    this.boundMouseDown = this.onMouseDown.bind(this);
+    this.boundMouseMove = this.onMouseMove.bind(this);
+    this.boundMouseUp = this.onMouseUp.bind(this);
+    this.boundTouchStart = this.onTouchStart.bind(this);
+    this.boundTouchMove = this.onTouchMove.bind(this);
+    this.boundTouchEnd = this.onTouchEnd.bind(this);
   }
 
   create() {
@@ -61,6 +67,7 @@ class InteractiveStickman {
       transform: rotate(${this.rotation}deg);
       transform-origin: center center;
     `;
+    this.element.setAttribute("aria-hidden", "true");
 
     // Create image
     const img = document.createElement("img");
@@ -80,14 +87,14 @@ class InteractiveStickman {
     document.body.appendChild(this.element);
 
     // Bind events
-    this.element.addEventListener("mousedown", (e) => this.onMouseDown(e));
-    document.addEventListener("mousemove", (e) => this.onMouseMove(e));
-    document.addEventListener("mouseup", (e) => this.onMouseUp(e));
+    this.element.addEventListener("mousedown", this.boundMouseDown);
+    document.addEventListener("mousemove", this.boundMouseMove);
+    document.addEventListener("mouseup", this.boundMouseUp);
 
     // Touch events for mobile
-    this.element.addEventListener("touchstart", (e) => this.onTouchStart(e));
-    document.addEventListener("touchmove", (e) => this.onTouchMove(e));
-    document.addEventListener("touchend", (e) => this.onTouchEnd(e));
+    this.element.addEventListener("touchstart", this.boundTouchStart);
+    document.addEventListener("touchmove", this.boundTouchMove);
+    document.addEventListener("touchend", this.boundTouchEnd);
 
     this.created = true;
     this.startPhysicsLoop();
@@ -100,14 +107,17 @@ class InteractiveStickman {
       cancelAnimationFrame(this.animationId);
     }
 
+    this.animationId = null;
+
     if (this.element && this.element.parentNode) {
       this.element.parentNode.removeChild(this.element);
     }
 
-    document.removeEventListener("mousemove", (e) => this.onMouseMove(e));
-    document.removeEventListener("mouseup", (e) => this.onMouseUp(e));
-    document.removeEventListener("touchmove", (e) => this.onTouchMove(e));
-    document.removeEventListener("touchend", (e) => this.onTouchEnd(e));
+    document.removeEventListener("mousemove", this.boundMouseMove);
+    document.removeEventListener("mouseup", this.boundMouseUp);
+    document.removeEventListener("touchmove", this.boundTouchMove);
+    document.removeEventListener("touchend", this.boundTouchEnd);
+    this.element = null;
 
     this.created = false;
   }

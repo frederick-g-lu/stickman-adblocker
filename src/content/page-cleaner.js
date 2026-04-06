@@ -160,6 +160,7 @@ const STICKMAN_ASSET_PATH = "assets/stickman-thicc.png";
 const hostname = window.location.hostname.toLowerCase();
 const selectorValidityCache = new Map();
 const TRUSTED_PRODUCTIVITY_DOMAINS = [
+  "claude.ai",
   "google.com",
   "brightspace.com",
   "purdue.edu",

@@ -25,8 +25,29 @@ const LIST_URLS = [
 ];
 
 const UPDATE_ALARM = "stickman-update-filter-lists";
+const INTERACTIVE_STICKMAN_SCRIPT_ID = "interactive-stickman-content-script";
+let interactiveStickmanSyncQueue = Promise.resolve();
 const DYNAMIC_RULE_START = 500000;
 const DYNAMIC_RULE_LIMIT = 5000;
+const BYPASS_SESSION_RULE_START = 900000;
+const BYPASS_INITIATOR_DOMAINS = ["claude.ai", "gemini.google.com"];
+const BYPASS_RESOURCE_TYPES = [
+  "main_frame",
+  "sub_frame",
+  "script",
+  "stylesheet",
+  "xmlhttprequest",
+  "image",
+  "media",
+  "font",
+  "object",
+  "ping",
+  "csp_report",
+  "websocket",
+  "webtransport",
+  "webbundle",
+  "other"
+];
 const COSMETIC_SELECTOR_LIMIT = 3000;
 const COSMETIC_DOMAIN_RULE_LIMIT = 4000;
 const MAX_TEXT_CACHE_BYTES = 2_000_000;
@@ -353,6 +374,28 @@ function buildDynamicRules(networkFilters) {
   }
 
   return rules;
+}
+
+function buildBypassSessionRules() {
+  return BYPASS_INITIATOR_DOMAINS.map((domain, index) => ({
+    id: BYPASS_SESSION_RULE_START + index,
+    priority: 10_000,
+    action: { type: "allow" },
+    condition: {
+      initiatorDomains: [domain],
+      resourceTypes: BYPASS_RESOURCE_TYPES
+    }
+  }));
+}
+
+async function applyBypassSessionRules(settings) {
+  const removeRuleIds = BYPASS_INITIATOR_DOMAINS.map((_, index) => BYPASS_SESSION_RULE_START + index);
+  const addRules = settings.enabled ? buildBypassSessionRules() : [];
+
+  await chrome.declarativeNetRequest.updateSessionRules({
+    removeRuleIds,
+    addRules
+  });
 }
 
 async function fetchList(url) {
@@ -696,6 +739,78 @@ async function setSettings(nextSettings) {
   await chrome.storage.sync.set(nextSettings);
 }
 
+async function registerInteractiveStickmanScript() {
+  const existing = await chrome.scripting.getRegisteredContentScripts({
+    ids: [INTERACTIVE_STICKMAN_SCRIPT_ID]
+  });
+
+  if (existing.length > 0) {
+    return;
+  }
+
+  await chrome.scripting.registerContentScripts([
+    {
+      id: INTERACTIVE_STICKMAN_SCRIPT_ID,
+      js: ["src/content/stickman-physics.js"],
+      matches: ["<all_urls>"],
+      runAt: "document_idle",
+      allFrames: true,
+      persistAcrossSessions: true
+    }
+  ]);
+}
+
+async function unregisterInteractiveStickmanScript() {
+  const existing = await chrome.scripting.getRegisteredContentScripts({
+    ids: [INTERACTIVE_STICKMAN_SCRIPT_ID]
+  });
+
+  if (existing.length === 0) {
+    return;
+  }
+
+  await chrome.scripting.unregisterContentScripts({
+    ids: [INTERACTIVE_STICKMAN_SCRIPT_ID]
+  });
+}
+
+async function injectInteractiveStickmanIntoOpenTabs() {
+  const tabs = await chrome.tabs.query({
+    url: ["http://*/*", "https://*/*"]
+  });
+
+  await Promise.all(
+    tabs.map(async (tab) => {
+      if (typeof tab.id !== "number") {
+        return;
+      }
+
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: ["src/content/stickman-physics.js"]
+        });
+      } catch (_error) {
+        // Ignore pages where injection is not allowed or the frame is unavailable.
+      }
+    })
+  );
+}
+
+async function syncInteractiveStickmanScript(settings) {
+  interactiveStickmanSyncQueue = interactiveStickmanSyncQueue.then(async () => {
+    if (settings.interactiveStickman) {
+      await registerInteractiveStickmanScript();
+      await injectInteractiveStickmanIntoOpenTabs();
+      return;
+    }
+
+    await unregisterInteractiveStickmanScript();
+  });
+
+  return interactiveStickmanSyncQueue;
+}
+
 async function applyRulesets(settings) {
   const enableRulesetIds = [];
   const disableRulesetIds = [];
@@ -722,15 +837,7 @@ async function updateBadge(settings) {
     return;
   }
 
-  const layers = [
-    settings.blockAds,
-    settings.blockTrackers,
-    settings.blockMalware,
-    settings.useRemoteLists
-  ].filter(Boolean).length;
-
-  await chrome.action.setBadgeText({ text: String(layers) });
-  await chrome.action.setBadgeBackgroundColor({ color: "#0a7f3f" });
+  await chrome.action.setBadgeText({ text: "" });
 }
 
 async function ensureUpdateAlarm() {
@@ -747,7 +854,9 @@ async function ensureUpdateAlarm() {
 async function syncProtectionState() {
   const settings = await getSettings();
   await applyRulesets(settings);
+  await applyBypassSessionRules(settings);
   await updateBadge(settings);
+  await syncInteractiveStickmanScript(settings);
   await warmFromSelfieIfNeeded(settings);
   await ensureUpdateAlarm();
 }
@@ -789,7 +898,8 @@ chrome.storage.onChanged.addListener(async (changes, area) => {
     "blockAds",
     "blockTrackers",
     "blockMalware",
-    "useRemoteLists"
+    "useRemoteLists",
+    "interactiveStickman"
   ];
 
   const hasRelevantChange = relevantKeys.some((key) => key in changes);

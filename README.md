@@ -58,10 +58,7 @@ This project does **not** copy uBlock Origin source code. It implements an origi
    - Use remote filter lists (uBO-style)
 3. Optionally click **Update filter lists now** for immediate list refresh.
 
-The badge shows:
-
-- `OFF` when disabled.
-- A number (`1`-`4`) when enabled, representing active protection layers.
+The badge shows `OFF` when disabled. When enabled, no badge number is shown.
 
 ## Remote List Sources
 
